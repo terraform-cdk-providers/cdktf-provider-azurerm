@@ -186,12 +186,12 @@ export class NatGateway extends cdktf.TerraformResource {
     return this._publicIpAddressIds
   }
 
-  // public_ip_prefix_ids - computed: false, optional: true, required: false
+  // public_ip_prefix_ids - computed: true, optional: true, required: false
   private _publicIpPrefixIds?: string[];
   public get publicIpPrefixIds() {
     return this.getListAttribute('public_ip_prefix_ids');
   }
-  public set publicIpPrefixIds(value: string[] ) {
+  public set publicIpPrefixIds(value: string[]) {
     this._publicIpPrefixIds = value;
   }
   public resetPublicIpPrefixIds() {

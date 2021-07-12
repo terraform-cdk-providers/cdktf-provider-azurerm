@@ -20,6 +20,10 @@ export interface BatchAccountConfig extends cdktf.TerraformMetaArguments {
   */
   readonly poolAllocationMode?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/batch_account.html#public_network_access_enabled BatchAccount#public_network_access_enabled}
+  */
+  readonly publicNetworkAccessEnabled?: boolean;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/batch_account.html#resource_group_name BatchAccount#resource_group_name}
   */
   readonly resourceGroupName: string;
@@ -123,6 +127,7 @@ export class BatchAccount extends cdktf.TerraformResource {
     this._location = config.location;
     this._name = config.name;
     this._poolAllocationMode = config.poolAllocationMode;
+    this._publicNetworkAccessEnabled = config.publicNetworkAccessEnabled;
     this._resourceGroupName = config.resourceGroupName;
     this._storageAccountId = config.storageAccountId;
     this._tags = config.tags;
@@ -189,6 +194,22 @@ export class BatchAccount extends cdktf.TerraformResource {
   // primary_access_key - computed: true, optional: false, required: false
   public get primaryAccessKey() {
     return this.getStringAttribute('primary_access_key');
+  }
+
+  // public_network_access_enabled - computed: false, optional: true, required: false
+  private _publicNetworkAccessEnabled?: boolean;
+  public get publicNetworkAccessEnabled() {
+    return this.getBooleanAttribute('public_network_access_enabled');
+  }
+  public set publicNetworkAccessEnabled(value: boolean ) {
+    this._publicNetworkAccessEnabled = value;
+  }
+  public resetPublicNetworkAccessEnabled() {
+    this._publicNetworkAccessEnabled = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get publicNetworkAccessEnabledInput() {
+    return this._publicNetworkAccessEnabled
   }
 
   // resource_group_name - computed: false, optional: false, required: true
@@ -282,6 +303,7 @@ export class BatchAccount extends cdktf.TerraformResource {
       location: cdktf.stringToTerraform(this._location),
       name: cdktf.stringToTerraform(this._name),
       pool_allocation_mode: cdktf.stringToTerraform(this._poolAllocationMode),
+      public_network_access_enabled: cdktf.booleanToTerraform(this._publicNetworkAccessEnabled),
       resource_group_name: cdktf.stringToTerraform(this._resourceGroupName),
       storage_account_id: cdktf.stringToTerraform(this._storageAccountId),
       tags: cdktf.hashMapper(cdktf.anyToTerraform)(this._tags),

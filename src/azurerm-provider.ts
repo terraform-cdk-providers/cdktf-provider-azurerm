@@ -126,6 +126,20 @@ export interface AzurermProviderConfig {
   */
   readonly features: AzurermProviderFeatures[];
 }
+export interface AzurermProviderFeaturesCognitiveAccount {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm#purge_soft_delete_on_destroy AzurermProvider#purge_soft_delete_on_destroy}
+  */
+  readonly purgeSoftDeleteOnDestroy?: boolean;
+}
+
+function azurermProviderFeaturesCognitiveAccountToTerraform(struct?: AzurermProviderFeaturesCognitiveAccount): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  return {
+    purge_soft_delete_on_destroy: cdktf.booleanToTerraform(struct!.purgeSoftDeleteOnDestroy),
+  }
+}
+
 export interface AzurermProviderFeaturesKeyVault {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm#purge_soft_delete_on_destroy AzurermProvider#purge_soft_delete_on_destroy}
@@ -232,6 +246,12 @@ function azurermProviderFeaturesVirtualMachineScaleSetToTerraform(struct?: Azure
 
 export interface AzurermProviderFeatures {
   /**
+  * cognitive_account block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm#cognitive_account AzurermProvider#cognitive_account}
+  */
+  readonly cognitiveAccount?: AzurermProviderFeaturesCognitiveAccount[];
+  /**
   * key_vault block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm#key_vault AzurermProvider#key_vault}
@@ -272,6 +292,7 @@ export interface AzurermProviderFeatures {
 function azurermProviderFeaturesToTerraform(struct?: AzurermProviderFeatures): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
+    cognitive_account: cdktf.listMapper(azurermProviderFeaturesCognitiveAccountToTerraform)(struct!.cognitiveAccount),
     key_vault: cdktf.listMapper(azurermProviderFeaturesKeyVaultToTerraform)(struct!.keyVault),
     log_analytics_workspace: cdktf.listMapper(azurermProviderFeaturesLogAnalyticsWorkspaceToTerraform)(struct!.logAnalyticsWorkspace),
     network: cdktf.listMapper(azurermProviderFeaturesNetworkToTerraform)(struct!.network),

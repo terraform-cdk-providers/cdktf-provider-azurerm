@@ -34,6 +34,12 @@ export interface LighthouseDefinitionConfig extends cdktf.TerraformMetaArguments
   */
   readonly authorization: LighthouseDefinitionAuthorization[];
   /**
+  * plan block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/lighthouse_definition.html#plan LighthouseDefinition#plan}
+  */
+  readonly plan?: LighthouseDefinitionPlan[];
+  /**
   * timeouts block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/lighthouse_definition.html#timeouts LighthouseDefinition#timeouts}
@@ -66,6 +72,35 @@ function lighthouseDefinitionAuthorizationToTerraform(struct?: LighthouseDefinit
     principal_display_name: cdktf.stringToTerraform(struct!.principalDisplayName),
     principal_id: cdktf.stringToTerraform(struct!.principalId),
     role_definition_id: cdktf.stringToTerraform(struct!.roleDefinitionId),
+  }
+}
+
+export interface LighthouseDefinitionPlan {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/lighthouse_definition.html#name LighthouseDefinition#name}
+  */
+  readonly name: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/lighthouse_definition.html#product LighthouseDefinition#product}
+  */
+  readonly product: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/lighthouse_definition.html#publisher LighthouseDefinition#publisher}
+  */
+  readonly publisher: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/lighthouse_definition.html#version LighthouseDefinition#version}
+  */
+  readonly version: string;
+}
+
+function lighthouseDefinitionPlanToTerraform(struct?: LighthouseDefinitionPlan): any {
+  if (!cdktf.canInspect(struct)) { return struct; }
+  return {
+    name: cdktf.stringToTerraform(struct!.name),
+    product: cdktf.stringToTerraform(struct!.product),
+    publisher: cdktf.stringToTerraform(struct!.publisher),
+    version: cdktf.stringToTerraform(struct!.version),
   }
 }
 
@@ -132,6 +167,7 @@ export class LighthouseDefinition extends cdktf.TerraformResource {
     this._name = config.name;
     this._scope = config.scope;
     this._authorization = config.authorization;
+    this._plan = config.plan;
     this._timeouts = config.timeouts;
   }
 
@@ -228,6 +264,22 @@ export class LighthouseDefinition extends cdktf.TerraformResource {
     return this._authorization
   }
 
+  // plan - computed: false, optional: true, required: false
+  private _plan?: LighthouseDefinitionPlan[];
+  public get plan() {
+    return this.interpolationForAttribute('plan') as any;
+  }
+  public set plan(value: LighthouseDefinitionPlan[] ) {
+    this._plan = value;
+  }
+  public resetPlan() {
+    this._plan = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get planInput() {
+    return this._plan
+  }
+
   // timeouts - computed: false, optional: true, required: false
   private _timeouts?: LighthouseDefinitionTimeouts;
   public get timeouts() {
@@ -256,6 +308,7 @@ export class LighthouseDefinition extends cdktf.TerraformResource {
       name: cdktf.stringToTerraform(this._name),
       scope: cdktf.stringToTerraform(this._scope),
       authorization: cdktf.listMapper(lighthouseDefinitionAuthorizationToTerraform)(this._authorization),
+      plan: cdktf.listMapper(lighthouseDefinitionPlanToTerraform)(this._plan),
       timeouts: lighthouseDefinitionTimeoutsToTerraform(this._timeouts),
     };
   }

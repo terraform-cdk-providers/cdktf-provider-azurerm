@@ -18,7 +18,7 @@ export interface ApiManagementApiConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/api_management_api.html#display_name ApiManagementApi#display_name}
   */
-  readonly displayName: string;
+  readonly displayName?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/api_management_api.html#name ApiManagementApi#name}
   */
@@ -26,11 +26,11 @@ export interface ApiManagementApiConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/api_management_api.html#path ApiManagementApi#path}
   */
-  readonly path: string;
+  readonly path?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/api_management_api.html#protocols ApiManagementApi#protocols}
   */
-  readonly protocols: string[];
+  readonly protocols?: string[];
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/api_management_api.html#resource_group_name ApiManagementApi#resource_group_name}
   */
@@ -40,6 +40,10 @@ export interface ApiManagementApiConfig extends cdktf.TerraformMetaArguments {
   */
   readonly revision: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/api_management_api.html#revision_description ApiManagementApi#revision_description}
+  */
+  readonly revisionDescription?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/api_management_api.html#service_url ApiManagementApi#service_url}
   */
   readonly serviceUrl?: string;
@@ -48,6 +52,10 @@ export interface ApiManagementApiConfig extends cdktf.TerraformMetaArguments {
   */
   readonly soapPassThrough?: boolean;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/api_management_api.html#source_api_id ApiManagementApi#source_api_id}
+  */
+  readonly sourceApiId?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/api_management_api.html#subscription_required ApiManagementApi#subscription_required}
   */
   readonly subscriptionRequired?: boolean;
@@ -55,6 +63,10 @@ export interface ApiManagementApiConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/api_management_api.html#version ApiManagementApi#version}
   */
   readonly version?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/api_management_api.html#version_description ApiManagementApi#version_description}
+  */
+  readonly versionDescription?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/api_management_api.html#version_set_id ApiManagementApi#version_set_id}
   */
@@ -257,10 +269,13 @@ export class ApiManagementApi extends cdktf.TerraformResource {
     this._protocols = config.protocols;
     this._resourceGroupName = config.resourceGroupName;
     this._revision = config.revision;
+    this._revisionDescription = config.revisionDescription;
     this._serviceUrl = config.serviceUrl;
     this._soapPassThrough = config.soapPassThrough;
+    this._sourceApiId = config.sourceApiId;
     this._subscriptionRequired = config.subscriptionRequired;
     this._version = config.version;
+    this._versionDescription = config.versionDescription;
     this._versionSetId = config.versionSetId;
     this._import = config.import;
     this._oauth2Authorization = config.oauth2Authorization;
@@ -302,13 +317,16 @@ export class ApiManagementApi extends cdktf.TerraformResource {
     return this._description
   }
 
-  // display_name - computed: false, optional: false, required: true
-  private _displayName: string;
+  // display_name - computed: true, optional: true, required: false
+  private _displayName?: string;
   public get displayName() {
     return this.getStringAttribute('display_name');
   }
   public set displayName(value: string) {
     this._displayName = value;
+  }
+  public resetDisplayName() {
+    this._displayName = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get displayNameInput() {
@@ -343,26 +361,32 @@ export class ApiManagementApi extends cdktf.TerraformResource {
     return this._name
   }
 
-  // path - computed: false, optional: false, required: true
-  private _path: string;
+  // path - computed: true, optional: true, required: false
+  private _path?: string;
   public get path() {
     return this.getStringAttribute('path');
   }
   public set path(value: string) {
     this._path = value;
   }
+  public resetPath() {
+    this._path = undefined;
+  }
   // Temporarily expose input value. Use with caution.
   public get pathInput() {
     return this._path
   }
 
-  // protocols - computed: false, optional: false, required: true
-  private _protocols: string[];
+  // protocols - computed: true, optional: true, required: false
+  private _protocols?: string[];
   public get protocols() {
     return this.getListAttribute('protocols');
   }
   public set protocols(value: string[]) {
     this._protocols = value;
+  }
+  public resetProtocols() {
+    this._protocols = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get protocolsInput() {
@@ -393,6 +417,22 @@ export class ApiManagementApi extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get revisionInput() {
     return this._revision
+  }
+
+  // revision_description - computed: false, optional: true, required: false
+  private _revisionDescription?: string;
+  public get revisionDescription() {
+    return this.getStringAttribute('revision_description');
+  }
+  public set revisionDescription(value: string ) {
+    this._revisionDescription = value;
+  }
+  public resetRevisionDescription() {
+    this._revisionDescription = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get revisionDescriptionInput() {
+    return this._revisionDescription
   }
 
   // service_url - computed: true, optional: true, required: false
@@ -427,6 +467,22 @@ export class ApiManagementApi extends cdktf.TerraformResource {
     return this._soapPassThrough
   }
 
+  // source_api_id - computed: false, optional: true, required: false
+  private _sourceApiId?: string;
+  public get sourceApiId() {
+    return this.getStringAttribute('source_api_id');
+  }
+  public set sourceApiId(value: string ) {
+    this._sourceApiId = value;
+  }
+  public resetSourceApiId() {
+    this._sourceApiId = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get sourceApiIdInput() {
+    return this._sourceApiId
+  }
+
   // subscription_required - computed: false, optional: true, required: false
   private _subscriptionRequired?: boolean;
   public get subscriptionRequired() {
@@ -457,6 +513,22 @@ export class ApiManagementApi extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get versionInput() {
     return this._version
+  }
+
+  // version_description - computed: false, optional: true, required: false
+  private _versionDescription?: string;
+  public get versionDescription() {
+    return this.getStringAttribute('version_description');
+  }
+  public set versionDescription(value: string ) {
+    this._versionDescription = value;
+  }
+  public resetVersionDescription() {
+    this._versionDescription = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get versionDescriptionInput() {
+    return this._versionDescription
   }
 
   // version_set_id - computed: true, optional: true, required: false
@@ -569,10 +641,13 @@ export class ApiManagementApi extends cdktf.TerraformResource {
       protocols: cdktf.listMapper(cdktf.stringToTerraform)(this._protocols),
       resource_group_name: cdktf.stringToTerraform(this._resourceGroupName),
       revision: cdktf.stringToTerraform(this._revision),
+      revision_description: cdktf.stringToTerraform(this._revisionDescription),
       service_url: cdktf.stringToTerraform(this._serviceUrl),
       soap_pass_through: cdktf.booleanToTerraform(this._soapPassThrough),
+      source_api_id: cdktf.stringToTerraform(this._sourceApiId),
       subscription_required: cdktf.booleanToTerraform(this._subscriptionRequired),
       version: cdktf.stringToTerraform(this._version),
+      version_description: cdktf.stringToTerraform(this._versionDescription),
       version_set_id: cdktf.stringToTerraform(this._versionSetId),
       import: cdktf.listMapper(apiManagementApiImportToTerraform)(this._import),
       oauth2_authorization: cdktf.listMapper(apiManagementApiOauth2AuthorizationToTerraform)(this._oauth2Authorization),

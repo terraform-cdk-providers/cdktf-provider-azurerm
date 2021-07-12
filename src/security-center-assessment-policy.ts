@@ -8,6 +8,10 @@ import * as cdktf from 'cdktf';
 
 export interface SecurityCenterAssessmentPolicyConfig extends cdktf.TerraformMetaArguments {
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/security_center_assessment_policy.html#categories SecurityCenterAssessmentPolicy#categories}
+  */
+  readonly categories?: string[];
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/security_center_assessment_policy.html#description SecurityCenterAssessmentPolicy#description}
   */
   readonly description: string;
@@ -99,6 +103,7 @@ export class SecurityCenterAssessmentPolicy extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
+    this._categories = config.categories;
     this._description = config.description;
     this._displayName = config.displayName;
     this._implementationEffort = config.implementationEffort;
@@ -112,6 +117,22 @@ export class SecurityCenterAssessmentPolicy extends cdktf.TerraformResource {
   // ==========
   // ATTRIBUTES
   // ==========
+
+  // categories - computed: true, optional: true, required: false
+  private _categories?: string[];
+  public get categories() {
+    return this.getListAttribute('categories');
+  }
+  public set categories(value: string[]) {
+    this._categories = value;
+  }
+  public resetCategories() {
+    this._categories = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get categoriesInput() {
+    return this._categories
+  }
 
   // description - computed: false, optional: false, required: true
   private _description: string;
@@ -251,6 +272,7 @@ export class SecurityCenterAssessmentPolicy extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
+      categories: cdktf.listMapper(cdktf.stringToTerraform)(this._categories),
       description: cdktf.stringToTerraform(this._description),
       display_name: cdktf.stringToTerraform(this._displayName),
       implementation_effort: cdktf.stringToTerraform(this._implementationEffort),

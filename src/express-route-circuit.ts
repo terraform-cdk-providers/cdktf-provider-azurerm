@@ -12,9 +12,17 @@ export interface ExpressRouteCircuitConfig extends cdktf.TerraformMetaArguments 
   */
   readonly allowClassicOperations?: boolean;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/express_route_circuit.html#bandwidth_in_gbps ExpressRouteCircuit#bandwidth_in_gbps}
+  */
+  readonly bandwidthInGbps?: number;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/express_route_circuit.html#bandwidth_in_mbps ExpressRouteCircuit#bandwidth_in_mbps}
   */
-  readonly bandwidthInMbps: number;
+  readonly bandwidthInMbps?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/express_route_circuit.html#express_route_port_id ExpressRouteCircuit#express_route_port_id}
+  */
+  readonly expressRoutePortId?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/express_route_circuit.html#location ExpressRouteCircuit#location}
   */
@@ -26,7 +34,7 @@ export interface ExpressRouteCircuitConfig extends cdktf.TerraformMetaArguments 
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/express_route_circuit.html#peering_location ExpressRouteCircuit#peering_location}
   */
-  readonly peeringLocation: string;
+  readonly peeringLocation?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/express_route_circuit.html#resource_group_name ExpressRouteCircuit#resource_group_name}
   */
@@ -34,7 +42,7 @@ export interface ExpressRouteCircuitConfig extends cdktf.TerraformMetaArguments 
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/express_route_circuit.html#service_provider_name ExpressRouteCircuit#service_provider_name}
   */
-  readonly serviceProviderName: string;
+  readonly serviceProviderName?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/express_route_circuit.html#tags ExpressRouteCircuit#tags}
   */
@@ -129,7 +137,9 @@ export class ExpressRouteCircuit extends cdktf.TerraformResource {
       lifecycle: config.lifecycle
     });
     this._allowClassicOperations = config.allowClassicOperations;
+    this._bandwidthInGbps = config.bandwidthInGbps;
     this._bandwidthInMbps = config.bandwidthInMbps;
+    this._expressRoutePortId = config.expressRoutePortId;
     this._location = config.location;
     this._name = config.name;
     this._peeringLocation = config.peeringLocation;
@@ -160,17 +170,52 @@ export class ExpressRouteCircuit extends cdktf.TerraformResource {
     return this._allowClassicOperations
   }
 
-  // bandwidth_in_mbps - computed: false, optional: false, required: true
-  private _bandwidthInMbps: number;
+  // bandwidth_in_gbps - computed: false, optional: true, required: false
+  private _bandwidthInGbps?: number;
+  public get bandwidthInGbps() {
+    return this.getNumberAttribute('bandwidth_in_gbps');
+  }
+  public set bandwidthInGbps(value: number ) {
+    this._bandwidthInGbps = value;
+  }
+  public resetBandwidthInGbps() {
+    this._bandwidthInGbps = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get bandwidthInGbpsInput() {
+    return this._bandwidthInGbps
+  }
+
+  // bandwidth_in_mbps - computed: false, optional: true, required: false
+  private _bandwidthInMbps?: number;
   public get bandwidthInMbps() {
     return this.getNumberAttribute('bandwidth_in_mbps');
   }
-  public set bandwidthInMbps(value: number) {
+  public set bandwidthInMbps(value: number ) {
     this._bandwidthInMbps = value;
+  }
+  public resetBandwidthInMbps() {
+    this._bandwidthInMbps = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get bandwidthInMbpsInput() {
     return this._bandwidthInMbps
+  }
+
+  // express_route_port_id - computed: false, optional: true, required: false
+  private _expressRoutePortId?: string;
+  public get expressRoutePortId() {
+    return this.getStringAttribute('express_route_port_id');
+  }
+  public set expressRoutePortId(value: string ) {
+    this._expressRoutePortId = value;
+  }
+  public resetExpressRoutePortId() {
+    this._expressRoutePortId = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get expressRoutePortIdInput() {
+    return this._expressRoutePortId
   }
 
   // id - computed: true, optional: true, required: false
@@ -204,13 +249,16 @@ export class ExpressRouteCircuit extends cdktf.TerraformResource {
     return this._name
   }
 
-  // peering_location - computed: false, optional: false, required: true
-  private _peeringLocation: string;
+  // peering_location - computed: false, optional: true, required: false
+  private _peeringLocation?: string;
   public get peeringLocation() {
     return this.getStringAttribute('peering_location');
   }
-  public set peeringLocation(value: string) {
+  public set peeringLocation(value: string ) {
     this._peeringLocation = value;
+  }
+  public resetPeeringLocation() {
+    this._peeringLocation = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get peeringLocationInput() {
@@ -235,13 +283,16 @@ export class ExpressRouteCircuit extends cdktf.TerraformResource {
     return this.getStringAttribute('service_key');
   }
 
-  // service_provider_name - computed: false, optional: false, required: true
-  private _serviceProviderName: string;
+  // service_provider_name - computed: false, optional: true, required: false
+  private _serviceProviderName?: string;
   public get serviceProviderName() {
     return this.getStringAttribute('service_provider_name');
   }
-  public set serviceProviderName(value: string) {
+  public set serviceProviderName(value: string ) {
     this._serviceProviderName = value;
+  }
+  public resetServiceProviderName() {
+    this._serviceProviderName = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get serviceProviderNameInput() {
@@ -305,7 +356,9 @@ export class ExpressRouteCircuit extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       allow_classic_operations: cdktf.booleanToTerraform(this._allowClassicOperations),
+      bandwidth_in_gbps: cdktf.numberToTerraform(this._bandwidthInGbps),
       bandwidth_in_mbps: cdktf.numberToTerraform(this._bandwidthInMbps),
+      express_route_port_id: cdktf.stringToTerraform(this._expressRoutePortId),
       location: cdktf.stringToTerraform(this._location),
       name: cdktf.stringToTerraform(this._name),
       peering_location: cdktf.stringToTerraform(this._peeringLocation),

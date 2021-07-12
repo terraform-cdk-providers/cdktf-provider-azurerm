@@ -28,6 +28,14 @@ export interface KubernetesClusterNodePoolConfig extends cdktf.TerraformMetaArgu
   */
   readonly evictionPolicy?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/kubernetes_cluster_node_pool.html#fips_enabled KubernetesClusterNodePool#fips_enabled}
+  */
+  readonly fipsEnabled?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/kubernetes_cluster_node_pool.html#kubelet_disk_type KubernetesClusterNodePool#kubelet_disk_type}
+  */
+  readonly kubeletDiskType?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/kubernetes_cluster_node_pool.html#kubernetes_cluster_id KubernetesClusterNodePool#kubernetes_cluster_id}
   */
   readonly kubernetesClusterId: string;
@@ -452,6 +460,8 @@ export class KubernetesClusterNodePool extends cdktf.TerraformResource {
     this._enableHostEncryption = config.enableHostEncryption;
     this._enableNodePublicIp = config.enableNodePublicIp;
     this._evictionPolicy = config.evictionPolicy;
+    this._fipsEnabled = config.fipsEnabled;
+    this._kubeletDiskType = config.kubeletDiskType;
     this._kubernetesClusterId = config.kubernetesClusterId;
     this._maxCount = config.maxCount;
     this._maxPods = config.maxPods;
@@ -562,9 +572,41 @@ export class KubernetesClusterNodePool extends cdktf.TerraformResource {
     return this._evictionPolicy
   }
 
+  // fips_enabled - computed: false, optional: true, required: false
+  private _fipsEnabled?: boolean;
+  public get fipsEnabled() {
+    return this.getBooleanAttribute('fips_enabled');
+  }
+  public set fipsEnabled(value: boolean ) {
+    this._fipsEnabled = value;
+  }
+  public resetFipsEnabled() {
+    this._fipsEnabled = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get fipsEnabledInput() {
+    return this._fipsEnabled
+  }
+
   // id - computed: true, optional: true, required: false
   public get id() {
     return this.getStringAttribute('id');
+  }
+
+  // kubelet_disk_type - computed: true, optional: true, required: false
+  private _kubeletDiskType?: string;
+  public get kubeletDiskType() {
+    return this.getStringAttribute('kubelet_disk_type');
+  }
+  public set kubeletDiskType(value: string) {
+    this._kubeletDiskType = value;
+  }
+  public resetKubeletDiskType() {
+    this._kubeletDiskType = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get kubeletDiskTypeInput() {
+    return this._kubeletDiskType
   }
 
   // kubernetes_cluster_id - computed: false, optional: false, required: true
@@ -953,6 +995,8 @@ export class KubernetesClusterNodePool extends cdktf.TerraformResource {
       enable_host_encryption: cdktf.booleanToTerraform(this._enableHostEncryption),
       enable_node_public_ip: cdktf.booleanToTerraform(this._enableNodePublicIp),
       eviction_policy: cdktf.stringToTerraform(this._evictionPolicy),
+      fips_enabled: cdktf.booleanToTerraform(this._fipsEnabled),
+      kubelet_disk_type: cdktf.stringToTerraform(this._kubeletDiskType),
       kubernetes_cluster_id: cdktf.stringToTerraform(this._kubernetesClusterId),
       max_count: cdktf.numberToTerraform(this._maxCount),
       max_pods: cdktf.numberToTerraform(this._maxPods),

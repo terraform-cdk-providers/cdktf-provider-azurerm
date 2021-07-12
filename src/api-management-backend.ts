@@ -165,9 +165,13 @@ function apiManagementBackendServiceFabricClusterServerX509NameToTerraform(struc
 
 export interface ApiManagementBackendServiceFabricCluster {
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/api_management_backend.html#client_certificate_id ApiManagementBackend#client_certificate_id}
+  */
+  readonly clientCertificateId?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/api_management_backend.html#client_certificate_thumbprint ApiManagementBackend#client_certificate_thumbprint}
   */
-  readonly clientCertificateThumbprint: string;
+  readonly clientCertificateThumbprint?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/api_management_backend.html#management_endpoints ApiManagementBackend#management_endpoints}
   */
@@ -191,6 +195,7 @@ export interface ApiManagementBackendServiceFabricCluster {
 function apiManagementBackendServiceFabricClusterToTerraform(struct?: ApiManagementBackendServiceFabricCluster): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
+    client_certificate_id: cdktf.stringToTerraform(struct!.clientCertificateId),
     client_certificate_thumbprint: cdktf.stringToTerraform(struct!.clientCertificateThumbprint),
     management_endpoints: cdktf.listMapper(cdktf.stringToTerraform)(struct!.managementEndpoints),
     max_partition_resolution_retries: cdktf.numberToTerraform(struct!.maxPartitionResolutionRetries),

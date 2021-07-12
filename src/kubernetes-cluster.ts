@@ -737,6 +737,14 @@ export interface KubernetesClusterDefaultNodePool {
   */
   readonly enableNodePublicIp?: boolean;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/kubernetes_cluster.html#fips_enabled KubernetesCluster#fips_enabled}
+  */
+  readonly fipsEnabled?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/kubernetes_cluster.html#kubelet_disk_type KubernetesCluster#kubelet_disk_type}
+  */
+  readonly kubeletDiskType?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/kubernetes_cluster.html#max_count KubernetesCluster#max_count}
   */
   readonly maxCount?: number;
@@ -831,6 +839,8 @@ function kubernetesClusterDefaultNodePoolToTerraform(struct?: KubernetesClusterD
     enable_auto_scaling: cdktf.booleanToTerraform(struct!.enableAutoScaling),
     enable_host_encryption: cdktf.booleanToTerraform(struct!.enableHostEncryption),
     enable_node_public_ip: cdktf.booleanToTerraform(struct!.enableNodePublicIp),
+    fips_enabled: cdktf.booleanToTerraform(struct!.fipsEnabled),
+    kubelet_disk_type: cdktf.stringToTerraform(struct!.kubeletDiskType),
     max_count: cdktf.numberToTerraform(struct!.maxCount),
     max_pods: cdktf.numberToTerraform(struct!.maxPods),
     min_count: cdktf.numberToTerraform(struct!.minCount),
@@ -1149,6 +1159,10 @@ export interface KubernetesClusterWindowsProfile {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/kubernetes_cluster.html#admin_username KubernetesCluster#admin_username}
   */
   readonly adminUsername: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/kubernetes_cluster.html#license KubernetesCluster#license}
+  */
+  readonly license?: string;
 }
 
 function kubernetesClusterWindowsProfileToTerraform(struct?: KubernetesClusterWindowsProfile): any {
@@ -1156,6 +1170,7 @@ function kubernetesClusterWindowsProfileToTerraform(struct?: KubernetesClusterWi
   return {
     admin_password: cdktf.stringToTerraform(struct!.adminPassword),
     admin_username: cdktf.stringToTerraform(struct!.adminUsername),
+    license: cdktf.stringToTerraform(struct!.license),
   }
 }
 
