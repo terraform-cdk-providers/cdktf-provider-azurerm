@@ -95,6 +95,11 @@ export class DataAzurermAppServiceEnvironmentV3 extends cdktf.TerraformDataSourc
     return this.getStringAttribute('id');
   }
 
+  // location - computed: true, optional: false, required: false
+  public get location() {
+    return this.getStringAttribute('location');
+  }
+
   // name - computed: false, optional: false, required: true
   private _name: string;
   public get name() {
@@ -106,6 +111,11 @@ export class DataAzurermAppServiceEnvironmentV3 extends cdktf.TerraformDataSourc
   // Temporarily expose input value. Use with caution.
   public get nameInput() {
     return this._name
+  }
+
+  // pricing_tier - computed: true, optional: false, required: false
+  public get pricingTier() {
+    return this.getStringAttribute('pricing_tier');
   }
 
   // resource_group_name - computed: false, optional: false, required: true

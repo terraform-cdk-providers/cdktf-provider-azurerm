@@ -84,7 +84,7 @@ export interface DataFactoryDatasetParquetAzureBlobStorageLocation {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/data_factory_dataset_parquet.html#filename DataFactoryDatasetParquet#filename}
   */
-  readonly filename: string;
+  readonly filename?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/data_factory_dataset_parquet.html#path DataFactoryDatasetParquet#path}
   */

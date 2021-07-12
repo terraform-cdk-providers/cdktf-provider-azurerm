@@ -80,6 +80,10 @@ export interface SiteRecoveryReplicatedVmManagedDisk {
   */
   readonly stagingStorageAccountId?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/site_recovery_replicated_vm.html#target_disk_encryption_set_id SiteRecoveryReplicatedVm#target_disk_encryption_set_id}
+  */
+  readonly targetDiskEncryptionSetId?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/site_recovery_replicated_vm.html#target_disk_type SiteRecoveryReplicatedVm#target_disk_type}
   */
   readonly targetDiskType?: string;
@@ -98,6 +102,7 @@ function siteRecoveryReplicatedVmManagedDiskToTerraform(struct?: SiteRecoveryRep
   return {
     disk_id: struct!.diskId === undefined ? null : cdktf.stringToTerraform(struct!.diskId),
     staging_storage_account_id: struct!.stagingStorageAccountId === undefined ? null : cdktf.stringToTerraform(struct!.stagingStorageAccountId),
+    target_disk_encryption_set_id: cdktf.stringToTerraform(struct!.targetDiskEncryptionSetId),
     target_disk_type: struct!.targetDiskType === undefined ? null : cdktf.stringToTerraform(struct!.targetDiskType),
     target_replica_disk_type: struct!.targetReplicaDiskType === undefined ? null : cdktf.stringToTerraform(struct!.targetReplicaDiskType),
     target_resource_group_id: struct!.targetResourceGroupId === undefined ? null : cdktf.stringToTerraform(struct!.targetResourceGroupId),

@@ -72,11 +72,38 @@ export class DataAzurermFunctionAppSiteConfigCors extends cdktf.ComplexComputedL
     return this.getBooleanAttribute('support_credentials');
   }
 }
+export class DataAzurermFunctionAppSiteConfigIpRestrictionHeaders extends cdktf.ComplexComputedList {
+
+  // x_azure_fdid - computed: true, optional: false, required: false
+  public get xAzureFdid() {
+    return this.getListAttribute('x_azure_fdid');
+  }
+
+  // x_fd_health_probe - computed: true, optional: false, required: false
+  public get xFdHealthProbe() {
+    return this.getListAttribute('x_fd_health_probe');
+  }
+
+  // x_forwarded_for - computed: true, optional: false, required: false
+  public get xForwardedFor() {
+    return this.getListAttribute('x_forwarded_for');
+  }
+
+  // x_forwarded_host - computed: true, optional: false, required: false
+  public get xForwardedHost() {
+    return this.getListAttribute('x_forwarded_host');
+  }
+}
 export class DataAzurermFunctionAppSiteConfigIpRestriction extends cdktf.ComplexComputedList {
 
   // action - computed: true, optional: false, required: false
   public get action() {
     return this.getStringAttribute('action');
+  }
+
+  // headers - computed: true, optional: false, required: false
+  public get headers() {
+    return this.interpolationForAttribute('headers') as any;
   }
 
   // ip_address - computed: true, optional: false, required: false
@@ -104,11 +131,38 @@ export class DataAzurermFunctionAppSiteConfigIpRestriction extends cdktf.Complex
     return this.getStringAttribute('virtual_network_subnet_id');
   }
 }
+export class DataAzurermFunctionAppSiteConfigScmIpRestrictionHeaders extends cdktf.ComplexComputedList {
+
+  // x_azure_fdid - computed: true, optional: false, required: false
+  public get xAzureFdid() {
+    return this.getListAttribute('x_azure_fdid');
+  }
+
+  // x_fd_health_probe - computed: true, optional: false, required: false
+  public get xFdHealthProbe() {
+    return this.getListAttribute('x_fd_health_probe');
+  }
+
+  // x_forwarded_for - computed: true, optional: false, required: false
+  public get xForwardedFor() {
+    return this.getListAttribute('x_forwarded_for');
+  }
+
+  // x_forwarded_host - computed: true, optional: false, required: false
+  public get xForwardedHost() {
+    return this.getListAttribute('x_forwarded_host');
+  }
+}
 export class DataAzurermFunctionAppSiteConfigScmIpRestriction extends cdktf.ComplexComputedList {
 
   // action - computed: true, optional: false, required: false
   public get action() {
     return this.getStringAttribute('action');
+  }
+
+  // headers - computed: true, optional: false, required: false
+  public get headers() {
+    return this.interpolationForAttribute('headers') as any;
   }
 
   // ip_address - computed: true, optional: false, required: false

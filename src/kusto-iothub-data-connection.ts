@@ -16,6 +16,10 @@ export interface KustoIothubDataConnectionConfig extends cdktf.TerraformMetaArgu
   */
   readonly consumerGroup: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/kusto_iothub_data_connection.html#data_format KustoIothubDataConnection#data_format}
+  */
+  readonly dataFormat?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/kusto_iothub_data_connection.html#database_name KustoIothubDataConnection#database_name}
   */
   readonly databaseName: string;
@@ -32,6 +36,10 @@ export interface KustoIothubDataConnectionConfig extends cdktf.TerraformMetaArgu
   */
   readonly location: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/kusto_iothub_data_connection.html#mapping_rule_name KustoIothubDataConnection#mapping_rule_name}
+  */
+  readonly mappingRuleName?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/kusto_iothub_data_connection.html#name KustoIothubDataConnection#name}
   */
   readonly name: string;
@@ -43,6 +51,10 @@ export interface KustoIothubDataConnectionConfig extends cdktf.TerraformMetaArgu
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/kusto_iothub_data_connection.html#shared_access_policy_name KustoIothubDataConnection#shared_access_policy_name}
   */
   readonly sharedAccessPolicyName: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/kusto_iothub_data_connection.html#table_name KustoIothubDataConnection#table_name}
+  */
+  readonly tableName?: string;
   /**
   * timeouts block
   * 
@@ -104,13 +116,16 @@ export class KustoIothubDataConnection extends cdktf.TerraformResource {
     });
     this._clusterName = config.clusterName;
     this._consumerGroup = config.consumerGroup;
+    this._dataFormat = config.dataFormat;
     this._databaseName = config.databaseName;
     this._eventSystemProperties = config.eventSystemProperties;
     this._iothubId = config.iothubId;
     this._location = config.location;
+    this._mappingRuleName = config.mappingRuleName;
     this._name = config.name;
     this._resourceGroupName = config.resourceGroupName;
     this._sharedAccessPolicyName = config.sharedAccessPolicyName;
+    this._tableName = config.tableName;
     this._timeouts = config.timeouts;
   }
 
@@ -142,6 +157,22 @@ export class KustoIothubDataConnection extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get consumerGroupInput() {
     return this._consumerGroup
+  }
+
+  // data_format - computed: false, optional: true, required: false
+  private _dataFormat?: string;
+  public get dataFormat() {
+    return this.getStringAttribute('data_format');
+  }
+  public set dataFormat(value: string ) {
+    this._dataFormat = value;
+  }
+  public resetDataFormat() {
+    this._dataFormat = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get dataFormatInput() {
+    return this._dataFormat
   }
 
   // database_name - computed: false, optional: false, required: true
@@ -204,6 +235,22 @@ export class KustoIothubDataConnection extends cdktf.TerraformResource {
     return this._location
   }
 
+  // mapping_rule_name - computed: false, optional: true, required: false
+  private _mappingRuleName?: string;
+  public get mappingRuleName() {
+    return this.getStringAttribute('mapping_rule_name');
+  }
+  public set mappingRuleName(value: string ) {
+    this._mappingRuleName = value;
+  }
+  public resetMappingRuleName() {
+    this._mappingRuleName = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get mappingRuleNameInput() {
+    return this._mappingRuleName
+  }
+
   // name - computed: false, optional: false, required: true
   private _name: string;
   public get name() {
@@ -243,6 +290,22 @@ export class KustoIothubDataConnection extends cdktf.TerraformResource {
     return this._sharedAccessPolicyName
   }
 
+  // table_name - computed: false, optional: true, required: false
+  private _tableName?: string;
+  public get tableName() {
+    return this.getStringAttribute('table_name');
+  }
+  public set tableName(value: string ) {
+    this._tableName = value;
+  }
+  public resetTableName() {
+    this._tableName = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get tableNameInput() {
+    return this._tableName
+  }
+
   // timeouts - computed: false, optional: true, required: false
   private _timeouts?: KustoIothubDataConnectionTimeouts;
   public get timeouts() {
@@ -267,13 +330,16 @@ export class KustoIothubDataConnection extends cdktf.TerraformResource {
     return {
       cluster_name: cdktf.stringToTerraform(this._clusterName),
       consumer_group: cdktf.stringToTerraform(this._consumerGroup),
+      data_format: cdktf.stringToTerraform(this._dataFormat),
       database_name: cdktf.stringToTerraform(this._databaseName),
       event_system_properties: cdktf.listMapper(cdktf.stringToTerraform)(this._eventSystemProperties),
       iothub_id: cdktf.stringToTerraform(this._iothubId),
       location: cdktf.stringToTerraform(this._location),
+      mapping_rule_name: cdktf.stringToTerraform(this._mappingRuleName),
       name: cdktf.stringToTerraform(this._name),
       resource_group_name: cdktf.stringToTerraform(this._resourceGroupName),
       shared_access_policy_name: cdktf.stringToTerraform(this._sharedAccessPolicyName),
+      table_name: cdktf.stringToTerraform(this._tableName),
       timeouts: kustoIothubDataConnectionTimeoutsToTerraform(this._timeouts),
     };
   }

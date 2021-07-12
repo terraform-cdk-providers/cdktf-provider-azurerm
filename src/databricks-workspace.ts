@@ -8,6 +8,14 @@ import * as cdktf from 'cdktf';
 
 export interface DatabricksWorkspaceConfig extends cdktf.TerraformMetaArguments {
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/databricks_workspace.html#customer_managed_key_enabled DatabricksWorkspace#customer_managed_key_enabled}
+  */
+  readonly customerManagedKeyEnabled?: boolean;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/databricks_workspace.html#infrastructure_encryption_enabled DatabricksWorkspace#infrastructure_encryption_enabled}
+  */
+  readonly infrastructureEncryptionEnabled?: boolean;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/databricks_workspace.html#location DatabricksWorkspace#location}
   */
   readonly location: string;
@@ -44,7 +52,28 @@ export interface DatabricksWorkspaceConfig extends cdktf.TerraformMetaArguments 
   */
   readonly timeouts?: DatabricksWorkspaceTimeouts;
 }
+export class DatabricksWorkspaceStorageAccountIdentity extends cdktf.ComplexComputedList {
+
+  // principal_id - computed: true, optional: false, required: false
+  public get principalId() {
+    return this.getStringAttribute('principal_id');
+  }
+
+  // tenant_id - computed: true, optional: false, required: false
+  public get tenantId() {
+    return this.getStringAttribute('tenant_id');
+  }
+
+  // type - computed: true, optional: false, required: false
+  public get type() {
+    return this.getStringAttribute('type');
+  }
+}
 export interface DatabricksWorkspaceCustomParameters {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/databricks_workspace.html#machine_learning_workspace_id DatabricksWorkspace#machine_learning_workspace_id}
+  */
+  readonly machineLearningWorkspaceId?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/databricks_workspace.html#no_public_ip DatabricksWorkspace#no_public_ip}
   */
@@ -66,6 +95,7 @@ export interface DatabricksWorkspaceCustomParameters {
 function databricksWorkspaceCustomParametersToTerraform(struct?: DatabricksWorkspaceCustomParameters): any {
   if (!cdktf.canInspect(struct)) { return struct; }
   return {
+    machine_learning_workspace_id: cdktf.stringToTerraform(struct!.machineLearningWorkspaceId),
     no_public_ip: cdktf.booleanToTerraform(struct!.noPublicIp),
     private_subnet_name: cdktf.stringToTerraform(struct!.privateSubnetName),
     public_subnet_name: cdktf.stringToTerraform(struct!.publicSubnetName),
@@ -130,6 +160,8 @@ export class DatabricksWorkspace extends cdktf.TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle
     });
+    this._customerManagedKeyEnabled = config.customerManagedKeyEnabled;
+    this._infrastructureEncryptionEnabled = config.infrastructureEncryptionEnabled;
     this._location = config.location;
     this._managedResourceGroupName = config.managedResourceGroupName;
     this._name = config.name;
@@ -144,9 +176,41 @@ export class DatabricksWorkspace extends cdktf.TerraformResource {
   // ATTRIBUTES
   // ==========
 
+  // customer_managed_key_enabled - computed: false, optional: true, required: false
+  private _customerManagedKeyEnabled?: boolean;
+  public get customerManagedKeyEnabled() {
+    return this.getBooleanAttribute('customer_managed_key_enabled');
+  }
+  public set customerManagedKeyEnabled(value: boolean ) {
+    this._customerManagedKeyEnabled = value;
+  }
+  public resetCustomerManagedKeyEnabled() {
+    this._customerManagedKeyEnabled = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get customerManagedKeyEnabledInput() {
+    return this._customerManagedKeyEnabled
+  }
+
   // id - computed: true, optional: true, required: false
   public get id() {
     return this.getStringAttribute('id');
+  }
+
+  // infrastructure_encryption_enabled - computed: false, optional: true, required: false
+  private _infrastructureEncryptionEnabled?: boolean;
+  public get infrastructureEncryptionEnabled() {
+    return this.getBooleanAttribute('infrastructure_encryption_enabled');
+  }
+  public set infrastructureEncryptionEnabled(value: boolean ) {
+    this._infrastructureEncryptionEnabled = value;
+  }
+  public resetInfrastructureEncryptionEnabled() {
+    this._infrastructureEncryptionEnabled = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get infrastructureEncryptionEnabledInput() {
+    return this._infrastructureEncryptionEnabled
   }
 
   // location - computed: false, optional: false, required: true
@@ -222,6 +286,11 @@ export class DatabricksWorkspace extends cdktf.TerraformResource {
     return this._sku
   }
 
+  // storage_account_identity - computed: true, optional: false, required: false
+  public storageAccountIdentity(index: string) {
+    return new DatabricksWorkspaceStorageAccountIdentity(this, 'storage_account_identity', index);
+  }
+
   // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string };
   public get tags() {
@@ -286,6 +355,8 @@ export class DatabricksWorkspace extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
+      customer_managed_key_enabled: cdktf.booleanToTerraform(this._customerManagedKeyEnabled),
+      infrastructure_encryption_enabled: cdktf.booleanToTerraform(this._infrastructureEncryptionEnabled),
       location: cdktf.stringToTerraform(this._location),
       managed_resource_group_name: cdktf.stringToTerraform(this._managedResourceGroupName),
       name: cdktf.stringToTerraform(this._name),

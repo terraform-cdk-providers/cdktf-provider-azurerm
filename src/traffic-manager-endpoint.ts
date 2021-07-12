@@ -24,6 +24,14 @@ export interface TrafficManagerEndpointConfig extends cdktf.TerraformMetaArgumen
   */
   readonly minChildEndpoints?: number;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/traffic_manager_endpoint.html#minimum_required_child_endpoints_ipv4 TrafficManagerEndpoint#minimum_required_child_endpoints_ipv4}
+  */
+  readonly minimumRequiredChildEndpointsIpv4?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/traffic_manager_endpoint.html#minimum_required_child_endpoints_ipv6 TrafficManagerEndpoint#minimum_required_child_endpoints_ipv6}
+  */
+  readonly minimumRequiredChildEndpointsIpv6?: number;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/azurerm/r/traffic_manager_endpoint.html#name TrafficManagerEndpoint#name}
   */
   readonly name: string;
@@ -178,6 +186,8 @@ export class TrafficManagerEndpoint extends cdktf.TerraformResource {
     this._endpointStatus = config.endpointStatus;
     this._geoMappings = config.geoMappings;
     this._minChildEndpoints = config.minChildEndpoints;
+    this._minimumRequiredChildEndpointsIpv4 = config.minimumRequiredChildEndpointsIpv4;
+    this._minimumRequiredChildEndpointsIpv6 = config.minimumRequiredChildEndpointsIpv6;
     this._name = config.name;
     this._priority = config.priority;
     this._profileName = config.profileName;
@@ -267,6 +277,38 @@ export class TrafficManagerEndpoint extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get minChildEndpointsInput() {
     return this._minChildEndpoints
+  }
+
+  // minimum_required_child_endpoints_ipv4 - computed: false, optional: true, required: false
+  private _minimumRequiredChildEndpointsIpv4?: number;
+  public get minimumRequiredChildEndpointsIpv4() {
+    return this.getNumberAttribute('minimum_required_child_endpoints_ipv4');
+  }
+  public set minimumRequiredChildEndpointsIpv4(value: number ) {
+    this._minimumRequiredChildEndpointsIpv4 = value;
+  }
+  public resetMinimumRequiredChildEndpointsIpv4() {
+    this._minimumRequiredChildEndpointsIpv4 = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get minimumRequiredChildEndpointsIpv4Input() {
+    return this._minimumRequiredChildEndpointsIpv4
+  }
+
+  // minimum_required_child_endpoints_ipv6 - computed: false, optional: true, required: false
+  private _minimumRequiredChildEndpointsIpv6?: number;
+  public get minimumRequiredChildEndpointsIpv6() {
+    return this.getNumberAttribute('minimum_required_child_endpoints_ipv6');
+  }
+  public set minimumRequiredChildEndpointsIpv6(value: number ) {
+    this._minimumRequiredChildEndpointsIpv6 = value;
+  }
+  public resetMinimumRequiredChildEndpointsIpv6() {
+    this._minimumRequiredChildEndpointsIpv6 = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get minimumRequiredChildEndpointsIpv6Input() {
+    return this._minimumRequiredChildEndpointsIpv6
   }
 
   // name - computed: false, optional: false, required: true
@@ -443,6 +485,8 @@ export class TrafficManagerEndpoint extends cdktf.TerraformResource {
       endpoint_status: cdktf.stringToTerraform(this._endpointStatus),
       geo_mappings: cdktf.listMapper(cdktf.stringToTerraform)(this._geoMappings),
       min_child_endpoints: cdktf.numberToTerraform(this._minChildEndpoints),
+      minimum_required_child_endpoints_ipv4: cdktf.numberToTerraform(this._minimumRequiredChildEndpointsIpv4),
+      minimum_required_child_endpoints_ipv6: cdktf.numberToTerraform(this._minimumRequiredChildEndpointsIpv6),
       name: cdktf.stringToTerraform(this._name),
       priority: cdktf.numberToTerraform(this._priority),
       profile_name: cdktf.stringToTerraform(this._profileName),
